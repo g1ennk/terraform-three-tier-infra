@@ -51,3 +51,7 @@ variable "ec2_max_size" {
   default     = 3
 }
 
+# Load Balancer
+variable "certificate_arn" {
+  type = string
+}

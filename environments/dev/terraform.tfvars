@@ -25,4 +25,5 @@ ec2_desired_capacity = 2
 ec2_min_size         = 1
 ec2_max_size         = 3
 
-
+# ALB 설정
+certificate_arn = "arn:aws:acm:ap-northeast-2:221082195716:certificate/793410ab-871b-4cf5-a265-01c9ccba39a9~"

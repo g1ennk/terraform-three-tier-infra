@@ -34,3 +34,13 @@ module "ec2" {
   vpc_zone_identifier  = module.vpc.private_nat_subnet_ids
   ec2_sg_id            = module.ec2.ec2_sg_id
 }
+
+module "alb" {
+  source            = "../../modules/alb"
+  vpc_id            = module.vpc.vpc_id
+  public_subnet_ids = module.vpc.public_subnet_ids
+  certificate_arn   = var.certificate_arn
+  asg_name          = module.ec2.ec2_asg_name
+  common_tags       = var.common_tags
+
+}
