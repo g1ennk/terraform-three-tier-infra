@@ -33,5 +33,4 @@ module "ec2" {
   common_tags          = var.common_tags
   vpc_zone_identifier  = module.vpc.private_nat_subnet_ids
   ec2_sg_id            = module.ec2.ec2_sg_id
-
 }

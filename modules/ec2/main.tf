@@ -1,4 +1,4 @@
-# 🚀 Launch Template for EC2 Instances
+# Launch Template for EC2 Instances
 resource "aws_launch_template" "ec2_lt" {
   name_prefix   = "ec2-template"
   image_id      = var.ami_id
@@ -16,13 +16,13 @@ resource "aws_launch_template" "ec2_lt" {
   }
 
 }
+
+# Auto Scailing Group
 resource "aws_autoscaling_group" "ec2_asg" {
   desired_capacity    = var.ec2_desired_capacity
   max_size            = var.ec2_max_size
   min_size            = var.ec2_min_size
   vpc_zone_identifier = var.vpc_zone_identifier
-
-
 
   launch_template {
     id      = aws_launch_template.ec2_lt.id

@@ -1,3 +1,4 @@
+# Launch Template
 variable "ami_id" {
   description = "EC2 AMI ID"
   type        = string
@@ -14,6 +15,11 @@ variable "key_name" {
   type        = string
 }
 
+variable "ec2_sg_id" {
+  type = string
+}
+
+# Auto Scaling Group
 variable "ec2_desired_capacity" {
   description = "EC2 ASG Desired Capacity"
   type        = number
@@ -36,6 +42,7 @@ variable "vpc_zone_identifier" {
   type = list(string)
 }
 
+# Security Group
 variable "vpc_id" {
   type = string
 }
@@ -44,8 +51,4 @@ variable "vpc_id" {
 variable "common_tags" {
   description = "Common tags for all resources"
   type        = map(string)
-}
-
-variable "ec2_sg_id" {
-  type = string
 }

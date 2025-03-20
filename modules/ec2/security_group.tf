@@ -1,4 +1,4 @@
-# EC2 보안 그룹 (SG)
+# EC2 Security Group
 resource "aws_security_group" "ec2_sg" {
   name        = "ec2-sg"
   description = "Security group for EC2 instances"

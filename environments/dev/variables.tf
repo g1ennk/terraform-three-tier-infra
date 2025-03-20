@@ -1,5 +1,4 @@
-
-
+# VPC
 variable "vpc_cidr" {
   type = string
 }
@@ -17,8 +16,7 @@ variable "common_tags" {
   type        = map(string)
 }
 
-
-# ✅ EC2 설정
+# EC2 설정
 variable "ami_id" {
   description = "EC2 AMI ID"
   type        = string
