@@ -7,7 +7,7 @@ resource "aws_launch_template" "ec2_lt" {
 
   network_interfaces {
     associate_public_ip_address = false
-    security_groups             = [var.ec2_sg_id]
+    security_groups             = [aws_security_group.ec2_sg.id]
   }
 
   tag_specifications {
