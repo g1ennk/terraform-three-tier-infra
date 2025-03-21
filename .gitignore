@@ -4,3 +4,4 @@ environments/dev/terraform.tfstate.backup
 environments/dev/terraform.tfstate
 environments/dev/backend.tf
 environments/dev/.terraform.lock.hcl
+environments/dev/terraform.tfvars
