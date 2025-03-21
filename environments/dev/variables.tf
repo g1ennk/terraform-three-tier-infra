@@ -103,3 +103,22 @@ variable "multi_az" {
   type    = bool
   default = false
 }
+
+# Bastion 관련
+# variable "ami_id" {
+#   description = "AMI ID for Bastion Host"
+#   type        = string
+# }
+
+# variable "key_name" {
+#   description = "SSH key pair name"
+#   type        = string
+# }
+
+# variable "common_tags" {
+#   type = map(string)
+# }
+
+# variable "instance_type" {
+#   type = string
+# }

@@ -69,3 +69,15 @@ module "rds" {
 
   common_tags = var.common_tags
 }
+
+# Bastion 호스트
+module "bastion" {
+  source           = "../../modules/bastion"
+  ami_id           = var.ami_id
+  instance_type    = var.instance_type
+  public_subnet_id = module.vpc.public_subnet_ids[0]
+  vpc_id           = module.vpc.vpc_id
+  key_name         = var.key_name
+
+  common_tags = var.common_tags
+}
