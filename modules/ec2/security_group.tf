@@ -14,19 +14,19 @@ resource "aws_security_group" "ec2_sg" {
 
   # SSH (22) - VPN 보안 그룹에서만 허용
   ingress {
-    from_port   = 22
-    to_port     = 22
-    protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"] # 추후 VPN 도입 시 해당 VPN만 허용하기
+    from_port       = 22
+    to_port         = 22
+    protocol        = "tcp"
+    security_groups = [var.bastion_sg_id]
   }
 
   # ALB (8080)에서 들어오는 트래픽 허용
-  #   ingress {
-  #     from_port       = 8080
-  #     to_port         = 8080
-  #     protocol        = "tcp"
-  #     security_groups = [var.alb_sg_id]
-  #   }
+  ingress {
+    from_port   = 8080
+    to_port     = 8080
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
 
   # 모든 아웃바운드 트래픽 허용
   egress {
