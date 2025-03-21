@@ -15,7 +15,7 @@ variable "key_name" {
   type        = string
 }
 
-variable "ec2_sg_id" {
+variable "alb_sg_id" {
   type = string
 }
 
@@ -44,6 +44,10 @@ variable "vpc_zone_identifier" {
 
 # Security Group
 variable "vpc_id" {
+  type = string
+}
+
+variable "bastion_sg_id" {
   type = string
 }
 

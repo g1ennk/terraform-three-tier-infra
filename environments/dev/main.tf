@@ -24,15 +24,16 @@ module "vpc" {
 module "ec2" {
   source               = "../../modules/ec2"
   vpc_id               = module.vpc.vpc_id
-  ami_id               = var.ami_id
-  instance_type        = var.instance_type
+  ami_id               = var.ec2_ami_id
+  instance_type        = var.ec2_instance_type
   key_name             = var.key_name
   ec2_desired_capacity = var.ec2_desired_capacity
   ec2_min_size         = var.ec2_min_size
   ec2_max_size         = var.ec2_max_size
   common_tags          = var.common_tags
   vpc_zone_identifier  = module.vpc.private_nat_subnet_ids
-  ec2_sg_id            = module.ec2.ec2_sg_id
+  alb_sg_id            = module.alb.alb_sg_id
+  bastion_sg_id        = module.bastion.bastion_sg_id
 }
 
 module "alb" {
@@ -42,7 +43,7 @@ module "alb" {
   certificate_arn   = var.certificate_arn
   asg_name          = module.ec2.ec2_asg_name
   common_tags       = var.common_tags
-
+  ec2_sg_id         = module.ec2.ec2_sg_id
 }
 
 module "rds" {
@@ -73,8 +74,8 @@ module "rds" {
 # Bastion 호스트
 module "bastion" {
   source           = "../../modules/bastion"
-  ami_id           = var.ami_id
-  instance_type    = var.instance_type
+  ami_id           = var.bastion_ami_id
+  instance_type    = var.bastion_instance_type
   public_subnet_id = module.vpc.public_subnet_ids[0]
   vpc_id           = module.vpc.vpc_id
   key_name         = var.key_name

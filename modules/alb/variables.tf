@@ -19,3 +19,7 @@ variable "certificate_arn" {
 variable "asg_name" {
   type = string
 }
+
+variable "ec2_sg_id" {
+  type = string
+}
