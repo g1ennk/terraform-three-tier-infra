@@ -17,12 +17,12 @@ variable "common_tags" {
 }
 
 # EC2 설정
-variable "ami_id" {
+variable "ec2_ami_id" {
   description = "EC2 AMI ID"
   type        = string
 }
 
-variable "instance_type" {
+variable "ec2_instance_type" {
   description = "EC2 Instance Type"
   type        = string
   default     = "t3.micro"
@@ -104,21 +104,17 @@ variable "multi_az" {
   default = false
 }
 
-# Bastion 관련
-# variable "ami_id" {
-#   description = "AMI ID for Bastion Host"
-#   type        = string
-# }
-
-# variable "key_name" {
-#   description = "SSH key pair name"
-#   type        = string
-# }
-
-# variable "common_tags" {
-#   type = map(string)
-# }
-
-# variable "instance_type" {
+# variable "vpc_security_group_ids" {
 #   type = string
 # }
+
+
+# Bastion 관련
+variable "bastion_ami_id" {
+  description = "AMI ID for Bastion Host"
+  type        = string
+}
+
+variable "bastion_instance_type" {
+  type = string
+}
