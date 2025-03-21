@@ -44,3 +44,28 @@ module "alb" {
   common_tags       = var.common_tags
 
 }
+
+module "rds" {
+  source = "../../modules/rds"
+
+  # VPC 관련
+  vpc_id     = module.vpc.vpc_id
+  subnet_ids = module.vpc.private_subnet_ids
+
+  # EC2 보안 그룹에서만 접근 허용
+  ec2_sg_id = module.ec2.ec2_sg_id
+
+  # DB 설정
+  db_identifier     = var.db_identifier
+  db_name           = var.db_name
+  db_username       = var.db_username
+  db_password       = var.db_password
+  db_port           = var.db_port
+  allocated_storage = var.allocated_storage
+  engine            = var.engine
+  engine_version    = var.engine_version
+  instance_class    = var.instance_class
+  multi_az          = var.multi_az
+
+  common_tags = var.common_tags
+}
