@@ -104,11 +104,6 @@ variable "multi_az" {
   default = false
 }
 
-# variable "vpc_security_group_ids" {
-#   type = string
-# }
-
-
 # Bastion 관련
 variable "bastion_ami_id" {
   description = "AMI ID for Bastion Host"
@@ -116,5 +111,24 @@ variable "bastion_ami_id" {
 }
 
 variable "bastion_instance_type" {
+  type = string
+}
+
+# S3 프론트엔드 관련
+variable "frontend_bucket_name" {
+  type = string
+}
+
+# ACM 인증서
+variable "domain_name" {
+  type = string
+}
+
+variable "route53_zone_id" {
+  type = string
+}
+
+# CloudFront
+variable "custom_domain" {
   type = string
 }
