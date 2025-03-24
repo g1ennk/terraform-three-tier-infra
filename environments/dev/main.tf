@@ -1,5 +1,8 @@
+# main.tf
+
 terraform {
   required_version = ">= 1.3.0"
+
   required_providers {
     aws = {
       source  = "hashicorp/aws"
@@ -9,10 +12,14 @@ terraform {
 }
 
 provider "aws" {
-  region = "ap-northeast-2" # 서울 리전
+  region = "ap-northeast-2"
 }
 
-# VPC 모듈 호출
+provider "aws" {
+  alias  = "us_east"
+  region = "us-east-1"
+}
+
 module "vpc" {
   source             = "../../modules/vpc"
   vpc_cidr           = var.vpc_cidr
@@ -40,23 +47,18 @@ module "alb" {
   source            = "../../modules/alb"
   vpc_id            = module.vpc.vpc_id
   public_subnet_ids = module.vpc.public_subnet_ids
-  certificate_arn   = var.certificate_arn
+  certificate_arn   = module.acm_alb.certificate_arn
   asg_name          = module.ec2.ec2_asg_name
   common_tags       = var.common_tags
   ec2_sg_id         = module.ec2.ec2_sg_id
 }
 
 module "rds" {
-  source = "../../modules/rds"
-
-  # VPC 관련
+  source     = "../../modules/rds"
   vpc_id     = module.vpc.vpc_id
   subnet_ids = module.vpc.private_subnet_ids
+  ec2_sg_id  = module.ec2.ec2_sg_id
 
-  # EC2 보안 그룹에서만 접근 허용
-  ec2_sg_id = module.ec2.ec2_sg_id
-
-  # DB 설정
   db_identifier     = var.db_identifier
   db_name           = var.db_name
   db_username       = var.db_username
@@ -67,11 +69,9 @@ module "rds" {
   engine_version    = var.engine_version
   instance_class    = var.instance_class
   multi_az          = var.multi_az
-
-  common_tags = var.common_tags
+  common_tags       = var.common_tags
 }
 
-# Bastion 호스트
 module "bastion" {
   source           = "../../modules/bastion"
   ami_id           = var.bastion_ami_id
@@ -79,44 +79,47 @@ module "bastion" {
   public_subnet_id = module.vpc.public_subnet_ids[0]
   vpc_id           = module.vpc.vpc_id
   key_name         = var.key_name
-
-  common_tags = var.common_tags
+  common_tags      = var.common_tags
 }
 
-# S3 프론트엔드 모듈
 module "s3_frontend" {
-  source = "../../modules/s3-static-site"
-
+  source      = "../../modules/s3-static-site"
   bucket_name = var.frontend_bucket_name
   common_tags = var.common_tags
 }
 
-# ACM 인증서 모듈
-module "acm" {
-  source = "../../modules/acm"
-
-  domain_name               = var.domain_name
-  subject_alternative_names = []
-  zone_id                   = var.route53_zone_id
-  common_tags               = var.common_tags
-}
-
-# CloudFront 배포 모듈
-module "cloudfront" {
-  source = "../../modules/cloudfront"
-
-  s3_bucket_domain_name = module.s3_frontend.bucket_domain_name
-  custom_domain         = var.custom_domain
-  certificate_arn       = module.acm.certificate_arn
-  common_tags           = var.common_tags
-}
-
-# Route53 연결 모듈
 module "route53" {
-  source = "../../modules/route53"
-
-  domain_name            = var.custom_domain
+  source                 = "../../modules/route53"
+  domain_name            = var.domain_name
   cloudfront_domain_name = module.cloudfront.cloudfront_domain_name
   cloudfront_zone_id     = module.cloudfront.cloudfront_hosted_zone_id
   common_tags            = var.common_tags
+  enable_rds_record      = true
+  rds_endpoint           = module.rds.rds_endpoint
+  rds_hostname           = module.rds.rds_hostname
+  enable_api_record      = true
+  api_endpoint           = module.alb.alb_dns_name
+}
+
+module "acm_alb" {
+  source      = "../../modules/acm"
+  domain_name = var.api_domain
+  zone_id     = module.route53.route53_zone_id
+  common_tags = var.common_tags
+}
+
+module "cloudfront" {
+  source                = "../../modules/cloudfront"
+  s3_bucket_domain_name = module.s3_frontend.bucket_domain_name
+  root_domain           = var.domain_name
+  zone_id               = module.route53.route53_zone_id
+  common_tags           = var.common_tags
+}
+
+module "backend" {
+  source = "../../modules/backend"
+
+  bucket_name         = "20250324-glenn-tfstate"
+  dynamodb_table_name = "20250324-glenn-lock"
+  common_tags         = var.common_tags
 }

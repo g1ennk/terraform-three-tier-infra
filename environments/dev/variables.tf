@@ -51,19 +51,27 @@ variable "ec2_max_size" {
   default     = 3
 }
 
-# Load Balancer
-variable "certificate_arn" {
+# DB 설정
+variable "db_identifier" {
   type = string
 }
 
-# DB 관련
+variable "db_name" {
+  type = string
+}
+
+variable "db_username" {
+  type = string
+}
+
+variable "db_password" {
+  type      = string
+  sensitive = true
+}
+
 variable "db_port" {
   type    = number
   default = 3306
-}
-
-variable "db_identifier" {
-  type = string
 }
 
 variable "allocated_storage" {
@@ -86,49 +94,33 @@ variable "instance_class" {
   default = "db.t3.micro"
 }
 
-variable "db_name" {
-  type = string
-}
-
-variable "db_username" {
-  type = string
-}
-
-variable "db_password" {
-  type      = string
-  sensitive = true
-}
-
 variable "multi_az" {
   type    = bool
   default = false
 }
 
-# Bastion 관련
+# Bastion 설정
 variable "bastion_ami_id" {
-  description = "AMI ID for Bastion Host"
-  type        = string
+  type = string
 }
 
 variable "bastion_instance_type" {
   type = string
 }
 
-# S3 프론트엔드 관련
+# S3 설정
 variable "frontend_bucket_name" {
   type = string
 }
 
-# ACM 인증서
+# Route 53 / ACM / CloudFront 관련
 variable "domain_name" {
-  type = string
+  description = "루트 도메인 (예: g1enn.site)"
+  type        = string
 }
 
-variable "route53_zone_id" {
-  type = string
+variable "api_domain" {
+  description = "ALB 도메인 (예: api.g1enn.site)"
+  type        = string
 }
 
-# CloudFront
-variable "custom_domain" {
-  type = string
-}

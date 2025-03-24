@@ -4,4 +4,10 @@ environments/dev/terraform.tfstate.backup
 environments/dev/terraform.tfstate
 environments/dev/backend.tf
 environments/dev/.terraform.lock.hcl
-environments/dev/terraform.tfvars
+environments/dev/terraform.tfvarsfrontend_test/
+environments/frontend_test/.terraform.lock.hcl
+environments/frontend_test/main.tf
+environments/frontend_test/terraform.tfstate
+environments/frontend_test/terraform.tfstate.backup
+environments/frontend_test/terraform.tfvars
+environments/frontend_test/variables.tf

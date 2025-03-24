@@ -1,14 +1,11 @@
-terraform {
-  required_providers {
-    aws = {
-      source = "hashicorp/aws"
-    }
-  }
+provider "aws" {
+  alias  = "us_east"
+  region = "us-east-1"
 }
 
-# ACM 인증서 생성 (DNS 검증 방식)
 resource "aws_acm_certificate" "cert" {
-  domain_name               = var.domain_name
+  provider                  = aws.us_east
+  domain_name               = var.root_domain
   validation_method         = "DNS"
   subject_alternative_names = var.subject_alternative_names
 
@@ -16,10 +13,9 @@ resource "aws_acm_certificate" "cert" {
   #   prevent_destroy = true
   # }
 
-  tags = merge(var.common_tags, { Name = "acm-cert" })
+  tags = merge(var.common_tags, { Name = "cloudfront-cert" })
 }
 
-# 인증서 검증을 위한 Route53 레코드 자동 생성
 resource "aws_route53_record" "cert_validation" {
   for_each = {
     for dvo in aws_acm_certificate.cert.domain_validation_options : dvo.domain_name => {
@@ -36,8 +32,8 @@ resource "aws_route53_record" "cert_validation" {
   ttl     = 60
 }
 
-# DNS 검증 완료 처리
 resource "aws_acm_certificate_validation" "cert_validation" {
+  provider                = aws.us_east
   certificate_arn         = aws_acm_certificate.cert.arn
   validation_record_fqdns = [for record in aws_route53_record.cert_validation : record.fqdn]
 }

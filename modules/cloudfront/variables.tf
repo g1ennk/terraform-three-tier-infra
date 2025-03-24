@@ -6,10 +6,15 @@ variable "s3_bucket_domain_name" {
   type = string
 }
 
-variable "custom_domain" {
+variable "root_domain" {
   type = string
 }
 
-variable "certificate_arn" {
+variable "zone_id" {
   type = string
+}
+
+variable "subject_alternative_names" {
+  type    = list(string)
+  default = []
 }

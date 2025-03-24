@@ -10,7 +10,7 @@ resource "aws_cloudfront_origin_access_control" "s3_oac" {
 resource "aws_cloudfront_distribution" "cdn" {
   enabled             = true # 배포 활성화
   default_root_object = "index.html"
-  aliases             = [var.custom_domain] # 지정 도메인 연결
+  aliases             = [var.root_domain] # 예: ["www.g1enn.site", "g1enn.site"]
 
   # Origin 설정 
   origin {
@@ -38,7 +38,7 @@ resource "aws_cloudfront_distribution" "cdn" {
   }
 
   viewer_certificate {
-    acm_certificate_arn      = var.certificate_arn
+    acm_certificate_arn      = aws_acm_certificate.cert.arn
     ssl_support_method       = "sni-only"
     minimum_protocol_version = "TLSv1.2_2021"
   }
@@ -51,3 +51,4 @@ resource "aws_cloudfront_distribution" "cdn" {
 
   tags = merge(var.common_tags, { Name = "cloudfront-cdn" })
 }
+
