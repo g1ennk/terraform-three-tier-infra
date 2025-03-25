@@ -3,6 +3,14 @@
 terraform {
   required_version = ">= 1.3.0"
 
+  backend "s3" {
+    bucket         = "20250325-glenn-tfstate"
+    key            = "dev/terraform.tfstate"
+    region         = "ap-northeast-2"
+    encrypt        = true
+    dynamodb_table = "20250325-glenn-tf-lock"
+  }
+
   required_providers {
     aws = {
       source  = "hashicorp/aws"
