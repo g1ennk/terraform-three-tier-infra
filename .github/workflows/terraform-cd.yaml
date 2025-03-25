@@ -9,7 +9,7 @@ jobs:
   terraform-cd:
     name: Terraform Apply to Dev
     runs-on: ubuntu-latest
-    environment: dev  # GitHub 환경 승인 걸 수 있음
+    # environment: dev  # GitHub 환경 승인 걸 수 있음
 
     defaults:
       run:
