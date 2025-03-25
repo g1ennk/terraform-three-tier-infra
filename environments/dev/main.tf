@@ -123,3 +123,5 @@ module "backend" {
   dynamodb_table_name = "20250324-glenn-lock"
   common_tags         = var.common_tags
 }
+
+# CI 테스트
