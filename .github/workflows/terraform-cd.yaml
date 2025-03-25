@@ -1,14 +1,17 @@
 name: Terraform CD
 
 on:
-  push:
-    branches:
-      - main
+  workflow_dispatch: # 수동 실행
 
 jobs:
   terraform-cd:
-    name: Terraform Apply
+    name: Terraform Apply to Dev
     runs-on: ubuntu-latest
+    environment: dev  # GitHub 환경 승인 걸 수 있음
+
+    defaults:
+      run:
+        working-directory: environments/dev
 
     steps:
       - name: Checkout Code
@@ -21,11 +24,9 @@ jobs:
 
       - name: Terraform Init
         run: terraform init
-        working-directory: environments/dev
 
       - name: Terraform Apply
-        run: terraform apply -auto-approve
-        working-directory: environments/dev
+        run: terraform apply -auto-approve -var-file="terraform.tfvars"
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
