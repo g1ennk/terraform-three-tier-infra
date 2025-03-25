@@ -34,5 +34,5 @@ jobs:
         working-directory: environments/dev
 
       - name: Terraform Plan
-        run: terraform plan -no-color
+        run: terraform plan -no-color -var-file="../dev/terraform.tfvars"
         working-directory: environments/dev
