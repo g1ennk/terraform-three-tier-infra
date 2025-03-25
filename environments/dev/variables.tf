@@ -124,3 +124,11 @@ variable "api_domain" {
   type        = string
 }
 
+variable "acm_certificate_arn_for_alb" {
+  type = string
+}
+
+variable "acm_certificate_arn_for_cloudfront" {
+  type = string
+}
+

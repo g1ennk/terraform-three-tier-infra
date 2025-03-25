@@ -36,7 +36,6 @@ variable "rds_hostname" {
   type = string
 }
 
-
 # 공통 태그
 variable "common_tags" {
   type = map(string)

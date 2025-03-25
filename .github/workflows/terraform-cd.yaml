@@ -1,7 +1,9 @@
 name: Terraform CD
 
 on:
-  workflow_dispatch: # 수동 실행
+  push:
+    branches:
+      - main
 
 jobs:
   terraform-cd:
