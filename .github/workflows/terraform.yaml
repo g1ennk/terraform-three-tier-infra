@@ -1,0 +1,40 @@
+name: Terraform CI
+
+on:
+    push:
+        branches:
+            - main
+    pull_request:
+
+jobs:
+    terraform:
+        name: "Terraform Fortmat, Validate & Plan"
+        runs-on: ubuntu-latest
+
+        steps:
+            - name: Checkout
+              uses: actions/checkout@v3
+
+            - name: Setup Terraform
+              uses: hasicorp/setup-terraform@v2
+              with:
+                terraform_version: 1.5.7
+
+            - name: Terraform Init
+              run: terraform init
+              working-directory: environments/dev
+
+            - name: Terraform Format Check
+              run: terraform init
+              working-directory: environments/dev
+
+            - name: Terraform Validate
+              run: terraform validate
+              working-directory: environments/dev
+
+            - name: Terraform Plan
+              run: terraform plan -no-color
+              working-directory: environments/dev
+
+
+
