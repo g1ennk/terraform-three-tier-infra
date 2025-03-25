@@ -47,7 +47,7 @@ module "alb" {
   source            = "../../modules/alb"
   vpc_id            = module.vpc.vpc_id
   public_subnet_ids = module.vpc.public_subnet_ids
-  certificate_arn   = module.acm_alb.certificate_arn
+  certificate_arn   = var.acm_certificate_arn_for_alb
   asg_name          = module.ec2.ec2_asg_name
   common_tags       = var.common_tags
   ec2_sg_id         = module.ec2.ec2_sg_id
@@ -101,27 +101,13 @@ module "route53" {
   api_endpoint           = module.alb.alb_dns_name
 }
 
-module "acm_alb" {
-  source      = "../../modules/acm"
-  domain_name = var.api_domain
-  zone_id     = module.route53.route53_zone_id
-  common_tags = var.common_tags
-}
-
 module "cloudfront" {
   source                = "../../modules/cloudfront"
   s3_bucket_domain_name = module.s3_frontend.bucket_domain_name
   root_domain           = var.domain_name
   zone_id               = module.route53.route53_zone_id
+  acm_certificate_arn   = var.acm_certificate_arn_for_cloudfront
   common_tags           = var.common_tags
 }
 
-module "backend" {
-  source = "../../modules/backend"
-
-  bucket_name         = "20250324-glenn-tfstate"
-  dynamodb_table_name = "20250324-glenn-lock"
-  common_tags         = var.common_tags
-}
-
-# CI 테스트 제발
+# CD 테스트

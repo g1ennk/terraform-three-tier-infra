@@ -1,5 +1,5 @@
 # Route 53 Hosted Zone 직접 생성
-resource "aws_route53_zone" "main" {
+data "aws_route53_zone" "main" {
   name = var.domain_name
 
   # lifecycle {
@@ -11,8 +11,8 @@ resource "aws_route53_zone" "main" {
 
 # Route53에서 도메인에 대한 A 레코드를 생성하여 CloudFront에 연결
 resource "aws_route53_record" "cloudfront_alias" {
-  zone_id = aws_route53_zone.main.id # 도메인에 해당하는 Hosted Zone ID
-  name    = var.domain_name          # 연결한 도메인 
+  zone_id = data.aws_route53_zone.main.id # 도메인에 해당하는 Hosted Zone ID
+  name    = var.domain_name               # 연결한 도메인 
   type    = "A"
 
   alias {
@@ -26,7 +26,7 @@ resource "aws_route53_record" "cloudfront_alias" {
 # RDS 연결 CNAME 레코드
 resource "aws_route53_record" "rds" {
   count   = var.enable_rds_record ? 1 : 0
-  zone_id = aws_route53_zone.main.id
+  zone_id = data.aws_route53_zone.main.id # 도메인에 해당하는 Hosted Zone ID
   name    = "rds.${var.domain_name}"
   type    = "CNAME"
   ttl     = 300
@@ -41,7 +41,7 @@ resource "aws_route53_record" "rds" {
 # ALB 연결 CNAME 레코드
 resource "aws_route53_record" "api" {
   count   = var.enable_api_record ? 1 : 0
-  zone_id = aws_route53_zone.main.id
+  zone_id = data.aws_route53_zone.main.id # 도메인에 해당하는 Hosted Zone ID
   name    = "api.${var.domain_name}"
   type    = "CNAME"
   ttl     = 300

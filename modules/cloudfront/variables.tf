@@ -18,3 +18,7 @@ variable "subject_alternative_names" {
   type    = list(string)
   default = []
 }
+
+variable "acm_certificate_arn" {
+  type = string
+}
