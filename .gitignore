@@ -14,3 +14,6 @@ environments/frontend_test/variables.tf
 
 # Terraform state 및 백업 파일 무시
 **/terraform.tfstate*
+bootstrap
+bootstrap/terraform.tfstate
+bootstrap/terraform.tfstate.backup

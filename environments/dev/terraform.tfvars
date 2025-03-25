@@ -19,7 +19,7 @@ common_tags = {
 
 # EC2
 ec2_ami_id           = "ami-082bce273471a2259"
-ec2_instance_type    = "t2.medium"
+ec2_instance_type    = "t2.small"
 key_name             = "keypair-kube-master"
 ec2_desired_capacity = 2
 ec2_min_size         = 1
