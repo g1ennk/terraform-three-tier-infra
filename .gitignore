@@ -11,4 +11,3 @@ environments/frontend_test/terraform.tfstate
 environments/frontend_test/terraform.tfstate.backup
 environments/frontend_test/terraform.tfvars
 environments/frontend_test/variables.tf
-environments/dev/terraform.tfvars
