@@ -7,7 +7,7 @@ on:
 
 jobs:
   terraform-ci:
-    name: Terraform Format, Validate, Plan
+    name: Terraform Format & Validate
     runs-on: ubuntu-latest
 
     env:
@@ -35,7 +35,3 @@ jobs:
 
       - name: Terraform Validate
         run: terraform validate
-
-      - name: Terraform Plan
-        run: terraform plan -no-color -var-file="terraform.tfvars"
-
