@@ -17,6 +17,8 @@ common_tags = {
   Environment = "dev"
 }
 
+deployment_env = "dev"
+
 # EC2
 ec2_ami_id           = "ami-082bce273471a2259"
 ec2_instance_type    = "t2.medium" # CI/CD 최종 테스트
@@ -57,3 +59,4 @@ api_domain = "api.g1enn.site"
 # ACM 관련
 acm_certificate_arn_for_alb        = "arn:aws:acm:ap-northeast-2:221082195716:certificate/f0bbe942-4066-4d74-9461-a30c20a67e26"
 acm_certificate_arn_for_cloudfront = "arn:aws:acm:us-east-1:221082195716:certificate/3c3921a5-d54b-4e59-9c06-d3d49579528c"
+

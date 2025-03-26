@@ -49,6 +49,7 @@ module "ec2" {
   vpc_zone_identifier  = module.vpc.private_nat_subnet_ids
   alb_sg_id            = module.alb.alb_sg_id
   bastion_sg_id        = module.bastion.bastion_sg_id
+  deployment_env       = var.deployment_env
 }
 
 module "alb" {

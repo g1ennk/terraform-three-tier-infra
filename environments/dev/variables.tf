@@ -132,3 +132,6 @@ variable "acm_certificate_arn_for_cloudfront" {
   type = string
 }
 
+variable "deployment_env" {
+  type = string
+}
