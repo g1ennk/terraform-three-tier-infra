@@ -99,8 +99,8 @@ module "s3_frontend" {
 module "route53" {
   source                 = "../../modules/route53"
   domain_name            = var.domain_name
-  cloudfront_domain_name = module.cloudfront.cloudfront_domain_name
-  cloudfront_zone_id     = module.cloudfront.cloudfront_hosted_zone_id
+  cloudfront_domain_name = var.cloudfront_domain_name
+  cloudfront_zone_id     = var.cloudfront_zone_id
   common_tags            = var.common_tags
   enable_rds_record      = true
   rds_endpoint           = module.rds.rds_endpoint
@@ -109,13 +109,13 @@ module "route53" {
   api_endpoint           = module.alb.alb_dns_name
 }
 
-module "cloudfront" {
-  source                = "../../modules/cloudfront"
-  s3_bucket_domain_name = module.s3_frontend.bucket_domain_name
-  root_domain           = var.domain_name
-  zone_id               = module.route53.route53_zone_id
-  acm_certificate_arn   = var.acm_certificate_arn_for_cloudfront
-  common_tags           = var.common_tags
-}
+# module "cloudfront" {
+#   source                = "../../modules/cloudfront"
+#   s3_bucket_domain_name = module.s3_frontend.bucket_domain_name
+#   root_domain           = var.domain_name
+#   zone_id               = module.route53.route53_zone_id
+#   acm_certificate_arn   = var.acm_certificate_arn_for_cloudfront
+#   common_tags           = var.common_tags
+# }
 
 # CI/CD 테스트 2
