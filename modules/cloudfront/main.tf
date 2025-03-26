@@ -12,9 +12,9 @@ resource "aws_cloudfront_distribution" "cdn" {
   default_root_object = "index.html"
   aliases             = [var.root_domain] # 예: ["www.g1enn.site", "g1enn.site"]
 
-  lifecycle {
-    prevent_destroy = true
-  }
+  # lifecycle {
+  #   prevent_destroy = true
+  # }
 
   # Origin 설정 
   origin {
