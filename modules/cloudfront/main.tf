@@ -18,7 +18,7 @@ resource "aws_cloudfront_distribution" "cdn" {
 
   # Origin 설정 
   origin {
-    domain_name              = var.s3_bucket_domain_name # S3 버킷 도메인
+    domain_name              = "${var.s3_bucket_domain_name}.s3.amazonaws.com" # S3 버킷 도메인
     origin_id                = "s3-origin"
     origin_access_control_id = aws_cloudfront_origin_access_control.s3_oac.id
   }
