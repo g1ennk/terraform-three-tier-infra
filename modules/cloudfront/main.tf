@@ -12,6 +12,10 @@ resource "aws_cloudfront_distribution" "cdn" {
   default_root_object = "index.html"
   aliases             = [var.root_domain] # 예: ["www.g1enn.site", "g1enn.site"]
 
+  lifecycle {
+    prevent_destroy = true
+  }
+
   # Origin 설정 
   origin {
     domain_name              = var.s3_bucket_domain_name # S3 버킷 도메인
