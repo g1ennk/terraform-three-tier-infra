@@ -132,10 +132,3 @@ variable "acm_certificate_arn_for_cloudfront" {
   type = string
 }
 
-variable "cloudfront_domain_name" {
-  type = string
-}
-
-variable "cloudfront_zone_id" {
-  type = string
-}
