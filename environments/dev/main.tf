@@ -118,4 +118,3 @@ module "cloudfront" {
   common_tags           = var.common_tags
 }
 
-# CD 테스트
