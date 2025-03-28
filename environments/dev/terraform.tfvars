@@ -18,8 +18,8 @@ common_tags = {
 }
 
 # EC2
-ec2_ami_id           = "ami-082bce273471a2259"
-ec2_instance_type    = "t2.medium" # CI/CD 최종 테스트
+ec2_ami_id           = "ami-0cf79e01dfa90d80e"
+ec2_instance_type    = "t2.medium"
 key_name             = "keypair-kube-master"
 ec2_desired_capacity = 2
 ec2_min_size         = 1
@@ -57,3 +57,7 @@ api_domain = "api.g1enn.site"
 # ACM 관련
 acm_certificate_arn_for_alb        = "arn:aws:acm:ap-northeast-2:221082195716:certificate/f0bbe942-4066-4d74-9461-a30c20a67e26"
 acm_certificate_arn_for_cloudfront = "arn:aws:acm:us-east-1:221082195716:certificate/3c3921a5-d54b-4e59-9c06-d3d49579528c"
+
+application_name       = "weekly-app"
+deployment_group_name  = "weekly-deploy-group"
+codedeploy_bucket_name = "weekly-deploy-bucket"

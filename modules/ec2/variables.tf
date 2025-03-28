@@ -56,3 +56,8 @@ variable "common_tags" {
   description = "Common tags for all resources"
   type        = map(string)
 }
+
+variable "ec2_tag_name" {
+  type    = string
+  default = "ec2-asg"
+}

@@ -116,6 +116,16 @@ module "cloudfront" {
   zone_id               = module.route53.route53_zone_id
   acm_certificate_arn   = var.acm_certificate_arn_for_cloudfront
   common_tags           = var.common_tags
+  bucket_name           = module.s3_frontend.bucket_name
+  region                = var.region
 }
 
-# CI/CD 테스트 2
+module "codedeploy" {
+  source                 = "../../modules/codedeploy"
+  codedeploy_role_name   = "CodeDeployServiceRole"
+  application_name       = var.application_name
+  deployment_group_name  = var.deployment_group_name
+  common_tags            = var.common_tags
+  codedeploy_bucket_name = var.codedeploy_bucket_name
+  asg_name               = module.ec2.ec2_asg_name
+}

@@ -18,7 +18,7 @@ resource "aws_cloudfront_distribution" "cdn" {
 
   # Origin 설정 
   origin {
-    domain_name              = var.s3_bucket_domain_name # S3 버킷 도메인
+    domain_name              = "${var.bucket_name}.s3.${var.region}.amazonaws.com"
     origin_id                = "s3-origin"
     origin_access_control_id = aws_cloudfront_origin_access_control.s3_oac.id
   }
@@ -54,5 +54,29 @@ resource "aws_cloudfront_distribution" "cdn" {
   }
 
   tags = merge(var.common_tags, { Name = "cloudfront-cdn" })
+}
+
+resource "aws_s3_bucket_policy" "cdn_bucket_policy" {
+  bucket = var.bucket_name
+
+  policy = jsonencode({
+    Version = "2012-10-17",
+    Statement = [
+      {
+        Sid    = "AllowCloudFrontOAC",
+        Effect = "Allow",
+        Principal = {
+          Service = "cloudfront.amazonaws.com"
+        },
+        Action   = "s3:GetObject",
+        Resource = "arn:aws:s3:::${var.bucket_name}/*",
+        Condition = {
+          StringEquals = {
+            "AWS:SourceArn" = aws_cloudfront_distribution.cdn.arn
+          }
+        }
+      }
+    ]
+  })
 }
 

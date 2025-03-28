@@ -132,3 +132,19 @@ variable "acm_certificate_arn_for_cloudfront" {
   type = string
 }
 
+variable "application_name" {
+  type = string
+}
+
+variable "deployment_group_name" {
+  type = string
+}
+
+variable "codedeploy_bucket_name" {
+  type = string
+}
+
+variable "region" {
+  type    = string
+  default = "ap-northeast-2"
+}
