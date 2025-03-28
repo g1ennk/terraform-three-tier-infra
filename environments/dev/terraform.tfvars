@@ -39,7 +39,7 @@ multi_az          = false
 
 # Bastion
 bastion_ami_id        = "ami-0d5bb3742db8fc264"
-bastion_instance_type = "t2.medium"
+bastion_instance_type = "t2.micro"
 
 # S3
 frontend_bucket_name = "weekly-static-site-dev"
