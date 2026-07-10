@@ -2,6 +2,14 @@
 
 2025년 2월에 구축한 개인 프로젝트로, AWS 3-Tier 인프라와 배포 파이프라인을 Terraform 모듈과 GitHub Actions로 자동화했습니다.
 
+## 프로젝트 상태
+
+> **완료된 개인 프로젝트 (2025.02)**입니다. 이 공개 저장소는 당시 설계·구현을 보여 주는 포트폴리오 자료이며, 활성 AWS 환경이나 실제 backend 설정을 포함하지 않습니다.
+
+- Terraform CI는 backend 없이 포맷과 구성을 검증합니다.
+- `terraform apply` workflow는 자동 실행되지 않으며, 실제 backend, untracked `terraform.tfvars`, AWS Secrets를 준비한 뒤에만 수동으로 실행할 수 있습니다.
+- 이 코드를 재배포 가능한 production template로 사용할 경우에는 네트워크 ingress 제한, IAM 최소 권한, S3 bucket policy 단일화, provider lock file 관리, 삭제 보호를 별도 하드닝해야 합니다.
+
 ## 프로젝트 목적
 
 AWS 콘솔에서 리소스를 수동으로 생성할 때는 설정을 재현하기 어렵고, 변경 이력을 추적하기 힘들며, 제한된 예산 때문에 리소스를 반복해서 생성하고 삭제해야 했습니다. 이를 해결하기 위해 네트워크부터 애플리케이션 배포 기반까지 코드로 정의하고, CI/CD로 검증과 적용을 자동화했습니다.
