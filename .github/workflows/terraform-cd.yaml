@@ -1,16 +1,21 @@
 name: Terraform CD
 
 on:
-  push:
-    branches:
-      - main
+  workflow_dispatch:
+    inputs:
+      confirm_apply:
+        description: "Set to true only after configuring the real backend, tfvars, and AWS secrets."
+        required: true
+        default: false
+        type: boolean
 
 jobs:
   terraform-cd:
     name: Terraform Apply to Dev
+    if: ${{ inputs.confirm_apply }}
     runs-on: ubuntu-latest
 
-    env: 
+    env:
       AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
@@ -20,15 +25,21 @@ jobs:
 
     steps:
       - name: Checkout Code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v2
         with:
           terraform_version: 1.5.7
 
+      - name: Verify deployment prerequisites
+        run: |
+          test -n "$AWS_ACCESS_KEY_ID" || { echo "AWS_ACCESS_KEY_ID secret is required."; exit 1; }
+          test -n "$AWS_SECRET_ACCESS_KEY" || { echo "AWS_SECRET_ACCESS_KEY secret is required."; exit 1; }
+          test -f terraform.tfvars || { echo "A real, untracked terraform.tfvars is required."; exit 1; }
+
       - name: Terraform Init
         run: terraform init
 
       - name: Terraform Apply
-        run: terraform apply -auto-approve -var-file="../dev/terraform.tfvars"
+        run: terraform apply -auto-approve -var-file=terraform.tfvars
