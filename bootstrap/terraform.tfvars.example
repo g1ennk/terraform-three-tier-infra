@@ -1,0 +1,7 @@
+bucket_name         = "your-terraform-state-bucket"
+dynamodb_table_name = "your-terraform-lock-table"
+
+common_tags = {
+  Project     = "terraform-bootstrap"
+  Environment = "shared"
+}

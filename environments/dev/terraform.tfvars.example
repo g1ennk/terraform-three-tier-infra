@@ -1,0 +1,57 @@
+# VPC
+vpc_cidr = "10.10.0.0/16"
+
+subnet_cidrs = {
+  public_a      = "10.10.1.0/24"
+  public_c      = "10.10.2.0/24"
+  private_nat_a = "10.10.3.0/24"
+  private_nat_c = "10.10.4.0/24"
+  private_a     = "10.10.5.0/24"
+  private_c     = "10.10.6.0/24"
+}
+
+availability_zones = ["ap-northeast-2a", "ap-northeast-2c"]
+
+common_tags = {
+  Project     = "three-tier-infra"
+  Environment = "dev"
+}
+
+# EC2
+ec2_ami_id           = "ami-xxxxxxxxxxxxxxxxx"
+ec2_instance_type    = "t2.medium"
+key_name             = "your-ec2-keypair-name"
+ec2_desired_capacity = 2
+ec2_min_size         = 1
+ec2_max_size         = 3
+
+# DB
+db_identifier     = "dev-rds"
+db_name           = "weekly_db"
+db_username       = "admin"
+db_password       = "CHANGE_ME_use_secrets_manager_in_prod"
+db_port           = 3306
+allocated_storage = 20
+engine            = "mysql"
+engine_version    = "8.0"
+instance_class    = "db.t3.micro"
+multi_az          = false
+
+# Bastion
+bastion_ami_id        = "ami-xxxxxxxxxxxxxxxxx"
+bastion_instance_type = "t2.medium"
+
+# S3
+frontend_bucket_name = "your-static-site-bucket"
+
+# Domains
+domain_name = "example.com"
+api_domain  = "api.example.com"
+
+# ACM
+acm_certificate_arn_for_alb        = "arn:aws:acm:ap-northeast-2:<ACCOUNT_ID>:certificate/<UUID>"
+acm_certificate_arn_for_cloudfront = "arn:aws:acm:us-east-1:<ACCOUNT_ID>:certificate/<UUID>"
+
+application_name       = "your-application"
+deployment_group_name  = "your-deployment-group"
+codedeploy_bucket_name = "your-codedeploy-bucket"

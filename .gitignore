@@ -1,0 +1,5 @@
+# Terraform 디렉토리 및 상태/변수 파일 무시
+**/.terraform/
+**/.terraform.lock.hcl
+**/terraform.tfstate*
+**/terraform.tfvars
